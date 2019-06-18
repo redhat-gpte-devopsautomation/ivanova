@@ -1,0 +1,98 @@
+= Cost Management
+
+== Introduction
+
+* Add AWS Source
+* Add OCP Source
+** Install Metering Operator on OCP Cluster
+** Install Collector on admin host
+** Configure Collector on admin host
+** Add cluster_id as OCP Source
+
+
+== AWS Instrumentation
+
+== OpenShift Instrumentation
+
+. Use ocp4-workload-metering to install metering operator in your cluster
+
+* 4 CPU cores and 4GB RAM taken in cluster
+* Deploy Reporting Route
+
+=== Admin host Setup
+
+A VM with
+** `system:admin` `oc` access to the OpenShift API
+** `insights-client` installed
+
+
+=== Insights Setup on admin host
+
+. Install packages
+
+ yum install insights-client
+
+. Setup insights config file for HTTP BASIC authn to insights
+
+=== `oc` setup on admin host
+
+. OCP4 client setup
+
+. OCP3 client setup
+
+=== Korekuta Setup
+
+. Get korekuta
+ git clone https://github.com/project-koku/korekuta -b 74-support-multiple-clusters
+
+
+. Follow these docs
+* https://koku.readthedocs.io/en/latest/providers.html#uploading-data-with-ocp-usage-collector-korekuta
+
+=== OCP Cluster Details to collect
+
+. Get service accounts and API endpoints from each of the clusters you'd like to collect from
+----
+oc login --server=API
+oc project openshift-metering
+oc serviceaccounts get-token reporting-operator > ocp_usage_token_<GUID>
+oc get route
+----
+
+=== Add OCP cluster to collector configs
+
+* On the admin host at user `ocpcollector`
+
+. Run the config of korekuta setup
+
+* OCP API endpoint (e.g. https://api.openshift-prod.mycompany.com)
+* OCP reporting-operator token file path
+* OCP Operator Metering namespace (e.g. metering)
+* The URL of the route exposed for the reporting operator in the Operator Metering namespace (e.g. https://metering.metering.api.ocp.com)
+* Sudo password for installing dependencies
+
+.Sample
+ ./ocp_usage.sh --setup -e OCP_API="https://api.openshift-prod.mycompany.com"  -e OCP_METERING_NAMESPACE="metering" -e OCP_TOKEN_PATH="/path/to/ocp_usage_token" -e METERING_API="https://metering.metering.api.ocp.com"
+
+.Actual for Judd's clusters
+
+. c6bd
+ ./ocp_usage.sh --setup -e OCP_API="https://api.cluster-c6bd.c6bd.ocp4.opentlc.com:6443" -e METERING_API="https://metering-openshift-metering.apps.cluster-c6bd.c6bd.ocp4.opentlc.com" -e OCP_METERING_NAMESPACE="openshift-metering" -e OCP_TOKEN_PATH="/home/jmaltin-redhat.com/metering/ocp_usage_token_c6db
+
+. ec48
+ ./ocp_usage.sh --setup -e OCP_API="https://api.cluster-ec48.ec48.ocp4.opentlc.com:6443" -e METERING_API="https://metering-openshift-metering.apps.cluster-ec48.ec48.ocp4.opentlc.com" -e OCP_METERING_NAMESPACE="openshift-metering" -e OCP_TOKEN_PATH="/home/jmaltin-redhat.com/metering/ocp_usage_token_ec48
+
+=== Running the Collector
+
+. Add the following to the crontab of the ocpcollector user on the admin host
+
+ ./ocp_usage.sh --collect -e OCP_CLUSTER_ID=<cluster_id>
+
+
+
+
+=== Add Cluster to Costs
+
+. Manually add the cluster_ID to the GUI
+
+
