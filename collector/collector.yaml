@@ -1,0 +1,9 @@
+# OCP Cost Management Collector Setup
+---
+
+- name: Run the Setup
+  hosts: 
+  roles:
+    - {role: 'setup', tags: 'setup'}
+    - {role: 'add', tags: 'add'}
+    

@@ -1,0 +1,14 @@
+---
+# tasks file for setup
+- name: Ensure user
+
+- name: Setup oc for proper version
+
+- name: insights package
+
+- name: insights BASIC http
+
+- name: collector setup
+
+
+

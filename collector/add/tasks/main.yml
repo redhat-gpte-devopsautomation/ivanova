@@ -1,0 +1,10 @@
+# add cluster to collector
+#
+---
+- name: validate input variables
+- name: validate oc proper version
+- name: run ocp_setup.sh
+- name: test server connection
+- name: add to crontab
+- name: add cluster_id as source to service
+
