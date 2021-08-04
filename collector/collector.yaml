@@ -1,9 +1,9 @@
 # OCP Cost Management Collector Setup
 ---
 
-- name: Run the Setup
-  hosts: 
+- name: Run the Setup or Add Cluster
+  hosts: admin.na.shared.opentlc.com
+  become: true
   roles:
     - {role: 'setup', tags: 'setup'}
     - {role: 'add', tags: 'add'}
-    

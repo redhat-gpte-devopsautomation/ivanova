@@ -2,6 +2,12 @@
 #
 ---
 - name: validate input variables
+  set_fact:
+    ocp_api_endpoint
+    ocp_reporting_operator_token
+    ocp_metering_operator_namespace
+    ocp_metering_operator_route
+
 - name: validate oc proper version
 - name: run ocp_setup.sh
 - name: test server connection

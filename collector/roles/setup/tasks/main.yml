@@ -1,0 +1,54 @@
+---
+# tasks file for setup
+
+- name: Ensure user 'ocpcollector' exists
+  user:
+    name: ocpcollector
+    comment: Collects data for Cost Analysis
+
+- name: add ocpcollector to sudoers
+
+# put this in cluster add playbook
+# - name: Setup oc for proper version
+
+# - name: epel repo
+#   yum_repository:
+#     name: epel
+#     description: EPEL YUM repo
+#     baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+
+- name: insights dependencies
+  command:
+    name: yum -y reinstall pyOpenSSL
+
+- name: insights package
+  package:
+    name: insights-client
+    state: present
+
+- name: insights BASIC http
+  template:
+    src: insights-client.conf.j2
+    dest: /home/ocpcollector/.config/insights-client.conf 
+
+- name: insights-client register
+  command: "sudo {{ _insights_command }} --register"
+
+- name: test insights-client setup
+  command: |
+    insights-client --conf $HOME/.config/insight-client.conf
+  register: insight-command
+
+- name: setup oc client version 3
+
+- name: setup oc client version 4
+
+- name: collector setup
+
+- name: get collector bits and extract
+    wget: curl -LOk https://github.com/project-koku/korekuta/archive/master.zip
+
+- name:  unzip korekuta
+  unzip: /home/ocpcollector/collector/master.zip
+
+# execute insights-client --conf $HOME/.config/insights-client.conf

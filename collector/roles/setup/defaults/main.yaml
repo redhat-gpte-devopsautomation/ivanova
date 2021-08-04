@@ -1,0 +1,10 @@
+# defaults for setup
+---
+_insights_config_file: '/home/ocpcollector/.config/insights-client.conf'
+_insights_command: "/usr/bin/insights-client --conf {{ _insights_config_file }} "
+_insights_username: 'insights-upload-gpte'
+_insights_password: '[2qW/},8"o#x2GG}!64Ab!.'
+_oc3_client_url: 'https://mirror.openshift.com/pub/openshift-v3/clients/3.11.121/linux/oc.tar.gz'
+_oc4_client_url: 'https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz'
+_collector_path: '/home/ocpcollector/collector/'
+

@@ -1,0 +1,3 @@
+# default vars for adding clusters to costs
+---
+_ocp_usage_tokens_dir: '/home/ocpcollector/ocp_usage_tokens/'

@@ -24,6 +24,7 @@
 A VM with
 ** `system:admin` `oc` access to the OpenShift API
 ** `insights-client` installed
+** ocpcollector user with sudo
 
 
 === Insights Setup on admin host
@@ -37,6 +38,7 @@ A VM with
 === `oc` setup on admin host
 
 . OCP4 client setup
+https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.1.0/openshift-install-linux-4.1.0.tar.gz
 
 . OCP3 client setup
 
@@ -65,7 +67,7 @@ oc get route
 
 . Run the config of korekuta setup
 
-* OCP API endpoint (e.g. https://api.openshift-prod.mycompany.com)
+* OCP API endpoint (e.g. https://api.openshift-prod.mycompany.com) `oc whoami --show-server`
 * OCP reporting-operator token file path
 * OCP Operator Metering namespace (e.g. metering)
 * The URL of the route exposed for the reporting operator in the Operator Metering namespace (e.g. https://metering.metering.api.ocp.com)
